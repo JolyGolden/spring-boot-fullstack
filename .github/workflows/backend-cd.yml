@@ -22,7 +22,7 @@ jobs:
         options: >
           -e POSTGRES_USER=nazik
           -e POSTGRES_PASSWORD=password
-          -e POSTGRES_DB=customer
+          -e POSTGRES_DB=customer 
     defaults:
       run:
         working-directory: ./backend
