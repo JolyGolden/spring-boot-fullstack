@@ -41,10 +41,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
 
-      - name: Build and Tag Docker Image using Docker Compose
+      - name: Build Docker Image using Docker Compose
         run: |
           docker-compose -f ../docker-compose.yml build nazik-api
-          docker tag jolygolden/nazik-api:latest ${{ secrets.DOCKERHUB_USERNAME }}/nazik-api:latest
+
+      - name: Tag and Push Docker Image to Docker Hub
+        run: |
+          docker tag nazik-api:latest ${{ secrets.DOCKERHUB_USERNAME }}/nazik-api:latest
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/nazik-api:latest
 
       - name: Log in to Amazon ECR
@@ -61,7 +64,7 @@ jobs:
         env:
           ECR_REPOSITORY: '084375572307.dkr.ecr.eu-central-1.amazonaws.com/nazik-api'
         run: |
-          docker tag ${{ secrets.DOCKERHUB_USERNAME }}/nazik-api:latest $ECR_REPOSITORY:latest
+          docker tag nazik-api:latest $ECR_REPOSITORY:latest
 
       - name: Push Docker Image to ECR
         env:
