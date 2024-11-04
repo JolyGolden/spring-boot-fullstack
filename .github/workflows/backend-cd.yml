@@ -70,7 +70,7 @@ jobs:
         env:
           ECR_REPOSITORY: '084375572307.dkr.ecr.eu-central-1.amazonaws.com/nazik-api'
         run: |
-          docker tag ${{ secrets.DOCKERHUB_USERNAME }}/nazik-api:latest $ECR_REPOSITORY:latest
+          docker tag ${{ secrets.DOCKERHUB_USERNAME }}/nazik-api $ECR_REPOSITORY:latest
 
       - name: Push Docker Image to ECR
         env:
