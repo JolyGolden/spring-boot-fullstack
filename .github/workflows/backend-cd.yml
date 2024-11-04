@@ -41,10 +41,11 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
 
-      - name: Build and Push Docker Image using Docker Compose
+      - name: Build and Tag Docker Image using Docker Compose
         run: |
           docker-compose -f ../docker-compose.yml build nazik-api
-          docker-compose -f ../docker-compose.yml push nazik-api
+          docker tag jolygolden/nazik-api:latest ${{ secrets.DOCKERHUB_USERNAME }}/nazik-api:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/nazik-api:latest
 
       - name: Log in to Amazon ECR
         env:
@@ -54,13 +55,13 @@ jobs:
           aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
           aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
           aws configure set default.region eu-central-1
-          aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 084375572307.dkr.ecr.eu-central-1.amazonaws.com/nazik-api
+          aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 084375572307.dkr.ecr.eu-central-1.amazonaws.com
 
       - name: Tag Docker Image for ECR
         env:
           ECR_REPOSITORY: '084375572307.dkr.ecr.eu-central-1.amazonaws.com/nazik-api'
         run: |
-          docker tag jolygolden/nazik-api:latest $ECR_REPOSITORY:latest
+          docker tag ${{ secrets.DOCKERHUB_USERNAME }}/nazik-api:latest $ECR_REPOSITORY:latest
 
       - name: Push Docker Image to ECR
         env:
