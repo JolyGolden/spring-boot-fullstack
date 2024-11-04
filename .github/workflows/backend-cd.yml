@@ -46,8 +46,8 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/nazik-api:latest .
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/nazik-api:latest
+          docker-compose -f docker-compose.yml build
+          docker-compose -f docker-compose.yml push
 
       - name: Log in to Amazon ECR
         env:
