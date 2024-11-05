@@ -51,16 +51,8 @@ jobs:
         run: |
           docker-compose -f ../docker-compose.yml build --no-cache
 
-      #
       - name: Verify Docker Image
         run: docker images
-
-      - name: Tag and Push Docker Image to ECR
-        env:
-          ECR_REPOSITORY: '084375572307.dkr.ecr.eu-central-1.amazonaws.com/nazik-api'
-        run: |
-          docker tag jolygolden/nazik-api:latest $ECR_REPOSITORY:latest
-          docker push $ECR_REPOSITORY:latest
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
@@ -68,6 +60,19 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1
+
+      - name: Log in to Amazon ECR
+        env:
+          AWS_REGION: eu-central-1
+        run: |
+          aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin 084375572307.dkr.ecr.eu-central-1.amazonaws.com
+
+      - name: Tag and Push Docker Image to ECR
+        env:
+          ECR_REPOSITORY: '084375572307.dkr.ecr.eu-central-1.amazonaws.com/nazik-api'
+        run: |
+          docker tag jolygolden/nazik-api:latest $ECR_REPOSITORY:latest
+          docker push $ECR_REPOSITORY:latest
 
       - name: Update ECS Service with New Image
         run: |
