@@ -2,6 +2,7 @@ services:
   db:
     container_name: postgres
     image: postgres:14
+
     environment:
       POSTGRES_USER: nazik
       POSTGRES_PASSWORD: password
@@ -16,6 +17,9 @@ services:
   nazik-api:
     container_name: nazik-api
     image: jolygolden/nazik-api
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/customer
     ports:

@@ -51,7 +51,7 @@ jobs:
         run: |
           docker-compose -f ../docker-compose.yml build --no-cache
 
-      # Добавляем шаг для проверки списка Docker образов
+      #
       - name: Verify Docker Image
         run: docker images
 
