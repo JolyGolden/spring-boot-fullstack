@@ -55,6 +55,11 @@ public class CustomerService {
         if (updatedCustomer.getAge() != null) {
             existingCustomer.setAge(updatedCustomer.getAge());
         }
+        if (updatedCustomer.getGender() == Gender.MALE) {
+            existingCustomer.setGender(Gender.MALE);
+        } else{
+            existingCustomer.setGender(Gender.FEMALE);
+        }
         customerRepo.save(existingCustomer);
     }
 }

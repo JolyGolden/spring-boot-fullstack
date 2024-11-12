@@ -34,8 +34,8 @@ class CustomerServiceTest {
     void getAllCustomers() {
         // Given
         List<Customer> expectedCustomers = List.of(
-                new Customer(1, "Kateryna Sadovska", "katerynasadovska@gmail.com", 20),
-                new Customer(2, "Nazar Zhanabergenov", "nazarzhanabergenov@gmail.com", 22)
+                new Customer(1, "Kateryna Sadovska", "katerynasadovska@gmail.com", 20, Gender.MALE),
+                new Customer(2, "Nazar Zhanabergenov", "nazarzhanabergenov@gmail.com", 22, Gender.MALE)
         );
         Mockito.when(customerRepo.findAll()).thenReturn(expectedCustomers);
 
@@ -52,7 +52,7 @@ class CustomerServiceTest {
 
         //Given
         int id = 1;
-        Customer customer = new Customer(id, "Nazar Zhanabergenov", "nazarzhanabergenov@gmail.com", 22);
+        Customer customer = new Customer(id, "Nazar Zhanabergenov", "nazarzhanabergenov@gmail.com", 22, Gender.MALE);
         Mockito.when(customerRepo.findById(id)).thenReturn(Optional.of(customer));
         //When
         Customer result = underTest.getCustomer(id);
@@ -80,7 +80,7 @@ class CustomerServiceTest {
     void addCustomer() {
         //Given
         Customer customer = new Customer(
-          null, "Micky Pearson","mickypearson@gmail.com",50
+          null, "Micky Pearson","mickypearson@gmail.com",50, Gender.MALE
         );
         Mockito.when(customerRepo.existsCustomerByEmail(customer.getEmail())).thenReturn(false);
 
@@ -96,7 +96,7 @@ class CustomerServiceTest {
     void addCustomerThrowsException() {
         //Given
         Customer customer = new Customer(
-                null, "Micky Pearson","mickypearson@gmail.com",50
+                null, "Micky Pearson","mickypearson@gmail.com",50, Gender.MALE
         );
         Mockito.when(customerRepo.existsCustomerByEmail(customer.getEmail())).thenReturn(true);
 
@@ -135,7 +135,7 @@ class CustomerServiceTest {
     void updateCustomerNameOnly() {
         // Given
         int id = 1;
-        Customer existingCustomer = new Customer(id, "John Doe", "john@example.com", 25);
+        Customer existingCustomer = new Customer(id, "John Doe", "john@example.com", 25, Gender.MALE);
         Mockito.when(customerRepo.findById(id)).thenReturn(Optional.of(existingCustomer));
 
         Customer updatedCustomer = new Customer();
@@ -155,7 +155,7 @@ class CustomerServiceTest {
     void updateCustomerEmailOnly() {
         // Given
         int id = 1;
-        Customer existingCustomer = new Customer(id, "John Doe", "john@example.com", 25);
+        Customer existingCustomer = new Customer(id, "John Doe", "john@example.com", 25, Gender.MALE);
         Mockito.when(customerRepo.findById(id)).thenReturn(Optional.of(existingCustomer));
 
         Customer updatedCustomer = new Customer();
@@ -175,7 +175,7 @@ class CustomerServiceTest {
     void updateCustomerAgeOnly() {
         // Given
         int id = 1;
-        Customer existingCustomer = new Customer(id, "John Doe", "john@example.com", 25);
+        Customer existingCustomer = new Customer(id, "John Doe", "john@example.com", 25, Gender.MALE);
         Mockito.when(customerRepo.findById(id)).thenReturn(Optional.of(existingCustomer));
 
         Customer updatedCustomer = new Customer();
@@ -195,7 +195,7 @@ class CustomerServiceTest {
     void updateMultipleFields() {
         // Given
         int id = 1;
-        Customer existingCustomer = new Customer(id, "John Doe", "john@example.com", 25);
+        Customer existingCustomer = new Customer(id, "John Doe", "john@example.com", 25, Gender.MALE);
         Mockito.when(customerRepo.findById(id)).thenReturn(Optional.of(existingCustomer));
 
         Customer updatedCustomer = new Customer();

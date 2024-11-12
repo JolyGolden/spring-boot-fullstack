@@ -67,7 +67,7 @@ class CustomerJPADataAccessServiceTest {
                 null,
                 Faker.instance().name().fullName(),
                 Faker.instance().internet().emailAddress(),
-                25
+                25, Gender.MALE
 
         );
         underTest.save(customer);

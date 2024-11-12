@@ -36,7 +36,8 @@ class CustomerRepoTest extends AbstractTestcontainers {
                 null, // Assuming the ID is auto-generated
                 Faker.instance().name().fullName(),
                 email,
-                30
+                30,
+                Gender.MALE
         );
         // Save the customer to the repository
         underTest.save(customer);
@@ -71,7 +72,8 @@ class CustomerRepoTest extends AbstractTestcontainers {
                 null, // Assuming the ID is auto-generated
                 Faker.instance().name().fullName(),
                 email,
-                30
+                30,
+                Gender.MALE
         );
         Customer savedCustomer = underTest.save(customer);
         Integer customerId = savedCustomer.getId();
