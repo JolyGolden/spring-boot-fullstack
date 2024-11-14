@@ -29,7 +29,16 @@ services:
     depends_on:
       - db
     restart: unless-stopped
-
+  nazik-react:
+    container_name: nazik-react
+    image: jolygolden/nazik-react
+    build:
+      context: frontend/react
+    ports:
+      - "3000:5173"
+    depends_on:
+      - nazik-api
+    restart: unless-stopped
 
 networks:
   db:
